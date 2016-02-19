@@ -1,0 +1,18 @@
+# IntelliJ IDEA project files #
+###############################
+.idea
+*.ipr
+*.iws
+*.iml
+
+# Build artifacts #
+###################
+target
+
+# Mac OSX  #
+############
+.DS_Store
+
+*.tmp
+*.log
+*.pre-cvfix
