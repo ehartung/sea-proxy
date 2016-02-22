@@ -43,9 +43,11 @@ public class WebSecurityConfig extends ResourceServerConfigurerAdapter {
         http.requestMatchers().antMatchers(paths.toArray(new String[paths.size()]));
 
         for (Map<String, String> route : oauth2Properties.getRoutes()) {
-            http.authorizeRequests().antMatchers(route.get("path"))
-                .access("#oauth2.hasScope('" + route.get("scope") + "')").anyRequest().authenticated();
+            http.authorizeRequests().antMatchers(route.get("path")).access("#oauth2.hasScope('" + route.get("scope")
+                    + "')");
         }
+
+        http.authorizeRequests().anyRequest().authenticated();
     }
 
     @Bean
