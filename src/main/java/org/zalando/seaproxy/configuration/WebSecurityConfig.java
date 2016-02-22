@@ -1,6 +1,12 @@
 package org.zalando.seaproxy.configuration;
 
-import org.springframework.beans.factory.annotation.Value;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
 import org.springframework.cloud.security.oauth2.resource.EnableOAuth2Resource;
 import org.springframework.cloud.security.oauth2.resource.ResourceServerProperties;
@@ -20,16 +26,26 @@ import org.zalando.stups.oauth2.spring.server.TokenInfoResourceServerTokenServic
 @Configuration
 @EnableWebSecurity
 @EnableOAuth2Resource
+@EnableConfigurationProperties
 public class WebSecurityConfig extends ResourceServerConfigurerAdapter {
 
-    @Value("${oauth2.scope:uid}")
-    private String scope;
+    @Autowired
+    private Oauth2Properties oauth2Properties;
 
     @Override
     public void configure(final HttpSecurity http) throws Exception {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER).and().authorizeRequests()
-            .antMatchers("/status.info").permitAll().and().authorizeRequests().antMatchers("**")
-            .access("#oauth2.hasScope('" + scope + "')").anyRequest().authenticated();
+            .antMatchers("/status.info").permitAll();
+
+        List<String> paths = oauth2Properties.getRoutes().stream().map(route -> route.get("path")).collect(Collectors
+                    .toList());
+
+        http.requestMatchers().antMatchers(paths.toArray(new String[paths.size()]));
+
+        for (Map<String, String> route : oauth2Properties.getRoutes()) {
+            http.authorizeRequests().antMatchers(route.get("path"))
+                .access("#oauth2.hasScope('" + route.get("scope") + "')").anyRequest().authenticated();
+        }
     }
 
     @Bean

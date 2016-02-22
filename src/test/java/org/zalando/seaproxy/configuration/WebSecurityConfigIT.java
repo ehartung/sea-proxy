@@ -4,6 +4,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.Map;
+
 import javax.annotation.Resource;
 
 import org.junit.Before;
@@ -22,7 +24,6 @@ import org.springframework.http.MediaType;
 
 import org.springframework.security.web.FilterChainProxy;
 
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
@@ -37,6 +38,9 @@ import org.zalando.seaproxy.Application;
 @WebAppConfiguration
 @IntegrationTest("server.port:0")
 public class WebSecurityConfigIT {
+
+    @Autowired
+    private Oauth2Properties oauth2Properties;
 
     private static final String FULL_AUTHENTICATION_REQUIRED =
         "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"
@@ -61,14 +65,16 @@ public class WebSecurityConfigIT {
     }
 
     @Test
-    public void testShouldAllowUnauhorizedAccessToStatusPage() throws Exception {
+    public void testShouldAllowUnauthorizedAccessToStatusPage() throws Exception {
         mockMvc.perform(get("/status.info").accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk()).andExpect(
             content().json("{status:\"OK\"}"));
     }
 
     @Test
-    public void testShouldNotAllowUnauhorizedRequests() throws Exception {
-        mockMvc.perform(get("/index").accept(MediaType.APPLICATION_XML)).andExpect(status().isUnauthorized()).andExpect(
-            content().xml(FULL_AUTHENTICATION_REQUIRED));
+    public void testShouldNotAllowUnauthorizedRequests() throws Exception {
+        for (Map<String, String> route : oauth2Properties.getRoutes()) {
+            mockMvc.perform(get(route.get("path").replace("**", "test")).accept(MediaType.APPLICATION_XML))
+                   .andExpect(status().isUnauthorized()).andExpect(content().xml(FULL_AUTHENTICATION_REQUIRED));
+        }
     }
 }
