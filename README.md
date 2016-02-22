@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/zalando/sea-proxy.svg?branch=master)](https://travis-ci.org/zalando/sea-proxy?branch=master)
+
 # Sea Proxy
 
 ## Deployment
