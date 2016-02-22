@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/zalando/sea-proxy.svg?branch=master)](https://travis-ci.org/zalando/sea-proxy?branch=master)
+[![Coverage Status](https://coveralls.io/repos/zalando/sea-proxy/badge.svg?branch=master&service=github)](https://coveralls.io/github/zalando/sea-proxy?branch=master)
 
 # Sea Proxy
 
