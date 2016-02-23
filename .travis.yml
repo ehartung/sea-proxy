@@ -1,9 +1,10 @@
 language: java
+sudo: true
 jdk:
-  - openjdk8
+  - oraclejdk8
 install:
-  - pip install --user coveralls
+  - pip install --user codecov
 script:
   - mvn clean verify
 after_success:
-  - coveralls
+  - codecov
