@@ -3,6 +3,15 @@
 
 # Sea Proxy
 
+Sea Proxy is an HTTP reverse proxy which terminates OAuth2 and SSL. It can be used to secure any kind of application that is communicating via HTTP and does not support OAuth2 natively.
+
+## Features
+- HTTP reverse proxy
+- OAuth2 termination
+- SSL termination
+- Configurable routes
+- OAuth2 scopes per route
+
 ## Deployment
 ### Build the project
 
