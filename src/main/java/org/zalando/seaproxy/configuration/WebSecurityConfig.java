@@ -15,6 +15,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
+import org.springframework.http.HttpMethod;
+
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -43,8 +45,15 @@ public class WebSecurityConfig extends ResourceServerConfigurerAdapter {
         http.requestMatchers().antMatchers(paths.toArray(new String[paths.size()]));
 
         for (Map<String, String> route : oauth2Properties.getRoutes()) {
-            http.authorizeRequests().antMatchers(route.get("path")).access("#oauth2.hasScope('" + route.get("scope")
-                    + "')");
+            final String method = route.get("method");
+            if (null != method && !method.isEmpty()) {
+                http.authorizeRequests().antMatchers(HttpMethod.valueOf(method), route.get("path")).access(
+                    "#oauth2.hasScope('" + route.get("scope") + "')");
+
+            } else {
+                http.authorizeRequests().antMatchers(route.get("path")).access("#oauth2.hasScope('" + route.get("scope")
+                        + "')");
+            }
         }
 
         http.authorizeRequests().anyRequest().authenticated();
