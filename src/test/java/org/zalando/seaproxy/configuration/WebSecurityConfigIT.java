@@ -65,16 +65,16 @@ public class WebSecurityConfigIT {
     }
 
     @Test
-    public void testShouldAllowUnauthorizedAccessToStatusPage() throws Exception {
-        mockMvc.perform(get("/status.info").accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk()).andExpect(
-            content().json("{status:\"OK\"}"));
-    }
-
-    @Test
     public void testShouldNotAllowUnauthorizedRequests() throws Exception {
         for (Map<String, String> route : oauth2Properties.getRoutes()) {
             mockMvc.perform(get(route.get("path").replace("**", "test")).accept(MediaType.APPLICATION_XML))
                    .andExpect(status().isUnauthorized()).andExpect(content().xml(FULL_AUTHENTICATION_REQUIRED));
         }
+    }
+
+    @Test
+    public void testShouldNotAllowUnauthorizedRequestToRoot() throws Exception {
+        mockMvc.perform(get("/").accept(MediaType.APPLICATION_XML)).andExpect(status().isUnauthorized()).andExpect(
+            content().xml(FULL_AUTHENTICATION_REQUIRED));
     }
 }
