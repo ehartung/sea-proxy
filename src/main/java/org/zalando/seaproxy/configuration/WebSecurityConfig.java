@@ -36,7 +36,7 @@ public class WebSecurityConfig extends ResourceServerConfigurerAdapter {
 
     @Override
     public void configure(final HttpSecurity http) throws Exception {
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER).and().authorizeRequests();
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER);
 
         List<String> paths = oauth2Properties.getRoutes().stream().map(route -> route.get("path")).collect(Collectors
                     .toList());
