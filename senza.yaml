@@ -49,7 +49,8 @@ SenzaComponents:
   # creates an ELB entry and Route53 domains to this ELB
   - AppLoadBalancer:
       Type: Senza::WeightedDnsElasticLoadBalancer
-      HTTPPort: 7979
+      HTTPPort: 9000
+      HealthCheckPort: 7979
       HealthCheckPath: /health
       SecurityGroups:
         - app-sea-proxy-lb
