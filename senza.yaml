@@ -50,7 +50,8 @@ SenzaComponents:
   - AppLoadBalancer:
       Type: Senza::WeightedDnsElasticLoadBalancer
       HTTPPort: 9000
-      HealthCheckPath: /status.info
+      HealthCheckPort: 7979
+      HealthCheckPath: /health
       SecurityGroups:
         - app-sea-proxy-lb
       Scheme: internet-facing
