@@ -31,6 +31,10 @@ import org.zalando.stups.oauth2.spring.server.TokenInfoResourceServerTokenServic
 @EnableConfigurationProperties
 public class WebSecurityConfig extends ResourceServerConfigurerAdapter {
 
+    private static final String PATH = "path";
+    private static final String SCOPE = "scope";
+    private static final String METHOD = "method";
+
     @Autowired
     private Oauth2Properties oauth2Properties;
 
@@ -44,13 +48,13 @@ public class WebSecurityConfig extends ResourceServerConfigurerAdapter {
         http.requestMatchers().antMatchers(paths.toArray(new String[paths.size()]));
 
         for (Map<String, String> route : oauth2Properties.getRoutes()) {
-            final String method = route.get("method");
+            final String method = route.get(METHOD);
             if (null != method && !method.isEmpty()) {
-                http.authorizeRequests().antMatchers(HttpMethod.valueOf(method), route.get("path")).access(
-                    "#oauth2.hasScope('" + route.get("scope") + "')");
+                http.authorizeRequests().antMatchers(HttpMethod.valueOf(method), route.get(PATH)).access(
+                    "#oauth2.hasScope('" + route.get(SCOPE) + "')");
 
             } else {
-                http.authorizeRequests().antMatchers(route.get("path")).access("#oauth2.hasScope('" + route.get("scope")
+                http.authorizeRequests().antMatchers(route.get(PATH)).access("#oauth2.hasScope('" + route.get(SCOPE)
                         + "')");
             }
         }
