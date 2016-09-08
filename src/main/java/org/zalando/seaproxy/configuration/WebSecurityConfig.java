@@ -34,6 +34,7 @@ public class WebSecurityConfig extends ResourceServerConfigurerAdapter {
     private static final String PATH = "path";
     private static final String SCOPE = "scope";
     private static final String METHOD = "method";
+    private static final String PERMIT = "permit";
 
     @Autowired
     private Oauth2Properties oauth2Properties;
@@ -49,13 +50,16 @@ public class WebSecurityConfig extends ResourceServerConfigurerAdapter {
 
         for (Map<String, String> route : oauth2Properties.getRoutes()) {
             final String method = route.get(METHOD);
-            if (null != method && !method.isEmpty()) {
-                http.authorizeRequests().antMatchers(HttpMethod.valueOf(method), route.get(PATH)).access(
-                    "#oauth2.hasScope('" + route.get(SCOPE) + "')");
+            final String path = route.get(PATH);
+            final String scope = route.get(SCOPE);
 
+            if (PERMIT.equals(scope)) {
+                http.authorizeRequests().antMatchers(path).permitAll();
+            } else if (null != method && !method.isEmpty()) {
+                http.authorizeRequests().antMatchers(HttpMethod.valueOf(method), path).access("#oauth2.hasScope('"
+                        + scope + "')");
             } else {
-                http.authorizeRequests().antMatchers(route.get(PATH)).access("#oauth2.hasScope('" + route.get(SCOPE)
-                        + "')");
+                http.authorizeRequests().antMatchers(path).access("#oauth2.hasScope('" + scope + "')");
             }
         }
 
