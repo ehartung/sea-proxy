@@ -1,5 +1,7 @@
 package org.zalando.seaproxy.configuration;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -39,6 +41,8 @@ import org.zalando.seaproxy.Application;
 @IntegrationTest("server.port:0")
 public class WebSecurityConfigIT {
 
+    private static final String PERMIT = "permit";
+
     @Autowired
     private Oauth2Properties oauth2Properties;
 
@@ -67,8 +71,10 @@ public class WebSecurityConfigIT {
     @Test
     public void testShouldNotAllowUnauthorizedRequests() throws Exception {
         for (Map<String, String> route : oauth2Properties.getRoutes()) {
-            mockMvc.perform(get(route.get("path").replace("**", "test")).accept(MediaType.APPLICATION_XML))
-                   .andExpect(status().isUnauthorized()).andExpect(content().xml(FULL_AUTHENTICATION_REQUIRED));
+            if (!PERMIT.equals(route.get("scope"))) {
+                mockMvc.perform(get(route.get("path").replace("**", "test")).accept(MediaType.APPLICATION_XML))
+                       .andExpect(status().isUnauthorized()).andExpect(content().xml(FULL_AUTHENTICATION_REQUIRED));
+            }
         }
     }
 
@@ -76,5 +82,19 @@ public class WebSecurityConfigIT {
     public void testShouldNotAllowUnauthorizedRequestToRoot() throws Exception {
         mockMvc.perform(get("/").accept(MediaType.APPLICATION_XML)).andExpect(status().isUnauthorized()).andExpect(
             content().xml(FULL_AUTHENTICATION_REQUIRED));
+    }
+
+    @Test
+    public void testShouldAllowWhitelistedRequests() throws Exception {
+        int numberOfWhitelistedRoutes = 0;
+        for (Map<String, String> route : oauth2Properties.getRoutes()) {
+            if (PERMIT.equals(route.get("scope"))) {
+                mockMvc.perform(get(route.get("path").replace("**", "test")).accept(MediaType.ALL)).andExpect(status()
+                        .isNotFound());
+                numberOfWhitelistedRoutes++;
+            }
+        }
+
+        assertThat(numberOfWhitelistedRoutes).isGreaterThan(0);
     }
 }
