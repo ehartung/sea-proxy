@@ -1,0 +1,36 @@
+apiVersion: "extensions/v1beta1"
+kind: Deployment
+metadata:
+  name: "sea-proxy-1"
+  namespace: "example"
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        application: "sea-proxy"
+        release: "1"
+        version: "1.0.36"
+    spec:
+      containers:
+      - name: "sea-proxy"
+        image: "registry.opensource.zalan.do/example/sea-proxy:1.0.36"
+        env:
+          - name: "SPRING_PROFILES_ACTIVE"
+            value: ""
+        resources:
+          limits:
+            cpu: 300m
+            memory: 1Gi
+          requests:
+            cpu: 200m
+            memory: 768Mi
+        ports:
+        - containerPort: 9000
+        - containerPort: 7979
+        readinessProbe:
+          httpGet:
+            path: /status.info
+            port: 9000
+          initialDelaySeconds: 30
+          timeoutSeconds: 1

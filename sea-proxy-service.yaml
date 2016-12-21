@@ -1,0 +1,16 @@
+apiVersion: "v1"
+kind: Service
+metadata:
+  name: "sea-proxy"
+  namespace: "example"
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-ssl-cert: "arn:aws:acm:<region>:<account_id>:certificate/<certificate_uuid>"
+    example.org/dnsname: "sea-proxy.example.zalan.do"
+spec:
+  selector:
+    application: "solrcloud-proxy"
+  ports:
+    - protocol: "TCP"
+      port: 443
+      targetPort: 9000
+  type: "LoadBalancer"
