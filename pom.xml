@@ -26,7 +26,7 @@
 
         <spring-boot.version>1.5.3.RELEASE</spring-boot.version>
         <spring-security.version>4.2.2.RELEASE</spring-security.version>
-        <spring-security.oauth2.version>2.1.0.RELEASE</spring-security.oauth2.version>
+        <spring-security.oauth2.version>2.1.1.RELEASE</spring-security.oauth2.version>
         <stups-spring-oauth2-server.version>1.0.19</stups-spring-oauth2-server.version>
         <spring-cloud.version>Dalston.SR1</spring-cloud.version>
         <guava.version>21.0</guava.version>
@@ -107,6 +107,11 @@
         </dependency>
 
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>org.zalando.zmon</groupId>
             <artifactId>zmon-actuator</artifactId>
             <version>${zmon-actuator.version}</version>
@@ -116,12 +121,6 @@
             <groupId>org.zalando.stups</groupId>
             <artifactId>stups-spring-oauth2-server</artifactId>
             <version>${stups-spring-oauth2-server.version}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>spring-security-oauth2</artifactId>
-                    <groupId>org.springframework.security.oauth</groupId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <dependency>

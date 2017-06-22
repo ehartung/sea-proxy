@@ -36,6 +36,8 @@ SenzaComponents:
       TaupageConfig:
         runtime: Docker
         source: "{{Arguments.DockerImage}}:{{Arguments.ImageVersion}}"
+        health_check_path: /health
+        health_check_port: 7979
         ports:
           9000: 9000
           7979: 7979
