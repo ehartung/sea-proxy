@@ -1,5 +1,5 @@
-[![Build Status](https://travis-ci.org/zalando-incubator/sea-proxy.svg?branch=master)](https://travis-ci.org/zalando-incubator/sea-proxy?branch=master)
-[![Coverage Status](https://codecov.io/github/zalando-incubator/sea-proxy/coverage.svg?branch=master)](https://codecov.io/github/zalando-incubator/sea-proxy?branch=master)
+[![Build Status](https://travis-ci.org/ehartung/sea-proxy.svg?branch=master)](https://travis-ci.org/ehartung/sea-proxy?branch=master)
+[![Coverage Status](https://codecov.io/github/ehartung/sea-proxy/coverage.svg?branch=master)](https://codecov.io/github/ehartung/sea-proxy?branch=master)
 
 # Sea Proxy
 
