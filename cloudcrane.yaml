@@ -11,3 +11,4 @@ containerDefinition:
       hostPort: 7979
       protocol: 'tcp'
 desiredCount: 1
+loadBalancer: internal

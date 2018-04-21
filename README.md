@@ -29,3 +29,9 @@ Sea Proxy is an HTTP reverse proxy which terminates OAuth2 and SSL. It can be us
         $ mai login
         $ senza create senza.yaml blue ApplicationId=sea-proxy DockerImage=<tag> ImageVersion=1.0.x MintBucket=<mint-bucket> ScalyrAccountKey=<scalyr-account-key>
 
+### Deploy to ECS wit Cloudcrane
+
+1. Create ECS cluster (see https://github.com/ehartung/cloudcrane)
+2. Deploy service into ECS cluster:
+
+        $ cloudcrane service --application=sea-proxy --version=1 deploy
