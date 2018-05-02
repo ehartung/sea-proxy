@@ -26,7 +26,7 @@ Sea Proxy is an HTTP reverse proxy which terminates OAuth2 and SSL. It can be us
 
         $ docker push <tag>
 
-### Deploy to ECS wit Cloudcrane
+### Deploy to ECS with Cloudcrane
 
 1. Create ECS cluster (see https://github.com/ehartung/cloudcrane)
 2. Deploy service into ECS cluster:
