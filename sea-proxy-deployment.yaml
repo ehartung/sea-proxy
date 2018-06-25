@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: "sea-proxy"
-        image: "458697064574.dkr.ecr.us-east-1.amazonaws.com/eday/sea-proxy:latest"
+        image: "sea-proxy:latest"
         env:
           - name: "SPRING_PROFILES_ACTIVE"
             value: ""
