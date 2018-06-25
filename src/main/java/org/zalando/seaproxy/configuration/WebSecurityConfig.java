@@ -45,6 +45,8 @@ public class WebSecurityConfig extends ResourceServerConfigurerAdapter {
         List<String> paths = oauth2Properties.getRoutes().stream().map(route -> route.get("path")).collect(Collectors
                     .toList());
 
+        http.authorizeRequests().antMatchers("/health").permitAll();
+
         http.requestMatchers().antMatchers(paths.toArray(new String[paths.size()]));
 
         for (Map<String, String> route : oauth2Properties.getRoutes()) {

@@ -1,20 +1,22 @@
-apiVersion: "extensions/v1beta1"
+apiVersion: "apps/v1"
 kind: Deployment
 metadata:
   name: "sea-proxy-1"
-  namespace: "example"
 spec:
+  selector:
+    matchLabels:
+      app: sea-proxy
   replicas: 2
   template:
     metadata:
       labels:
-        application: "sea-proxy"
+        app: "sea-proxy"
         release: "1"
-        version: "1.0.36"
+        version: "latest"
     spec:
       containers:
       - name: "sea-proxy"
-        image: "registry.opensource.zalan.do/example/sea-proxy:1.0.36"
+        image: "458697064574.dkr.ecr.us-east-1.amazonaws.com/eday/sea-proxy:latest"
         env:
           - name: "SPRING_PROFILES_ACTIVE"
             value: ""
@@ -28,9 +30,9 @@ spec:
         ports:
         - containerPort: 9000
         - containerPort: 7979
-        readinessProbe:
+        livenessProbe:
           httpGet:
-            path: /status.info
-            port: 9000
+            path: /health
+            port: 7979
           initialDelaySeconds: 30
           timeoutSeconds: 1
