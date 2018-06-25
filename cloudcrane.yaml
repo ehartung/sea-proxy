@@ -1,0 +1,14 @@
+containerDefinition:
+  name: 'sea-proxy'
+  image: '437687677580.dkr.ecr.eu-central-1.amazonaws.com/sea-proxy:latest'
+  cpu: 100
+  memory: 500
+  portMappings:
+    - containerPort: 9000
+      hostPort: 80
+      protocol: 'tcp'
+    - containerPort: 7979
+      hostPort: 7979
+      protocol: 'tcp'
+desiredCount: 1
+loadBalancer: internal

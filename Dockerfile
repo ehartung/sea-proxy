@@ -1,4 +1,4 @@
-FROM registry.opensource.zalan.do/stups/openjdk:8-26
+FROM registry.opensource.zalan.do/stups/openjdk:1.8.0-131-4
 
 COPY target/sea-proxy-0.0.1-SNAPSHOT.jar      /data/sea-proxy-0.0.1-SNAPSHOT.jar
 
