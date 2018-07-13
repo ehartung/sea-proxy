@@ -1,0 +1,38 @@
+apiVersion: "apps/v1"
+kind: Deployment
+metadata:
+  name: "sea-proxy-1"
+spec:
+  selector:
+    matchLabels:
+      app: sea-proxy
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: "sea-proxy"
+        release: "1"
+        version: "latest"
+    spec:
+      containers:
+      - name: "sea-proxy"
+        image: "sea-proxy:latest"
+        env:
+          - name: "SPRING_PROFILES_ACTIVE"
+            value: ""
+        resources:
+          limits:
+            cpu: 300m
+            memory: 1Gi
+          requests:
+            cpu: 200m
+            memory: 768Mi
+        ports:
+        - containerPort: 9000
+        - containerPort: 7979
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 7979
+          initialDelaySeconds: 30
+          timeoutSeconds: 1

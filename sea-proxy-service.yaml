@@ -1,0 +1,12 @@
+apiVersion: "v1"
+kind: Service
+metadata:
+  name: "sea-proxy"
+spec:
+  selector:
+    app: "sea-proxy"
+  ports:
+    - protocol: "TCP"
+      port: 443
+      targetPort: 9000
+  type: "LoadBalancer"
