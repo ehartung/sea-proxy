@@ -31,7 +31,7 @@
         <spring-cloud.version>Dalston.SR1</spring-cloud.version>
         <guava.version>21.0</guava.version>
         <zmon-actuator.version>0.9.7</zmon-actuator.version>
-        <httpclient.version>4.5.3</httpclient.version>
+        <httpclient.version>4.5.13</httpclient.version>
 
         <!-- Plugins -->
         <maven-compiler-plugin.version>3.1</maven-compiler-plugin.version>
